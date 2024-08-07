@@ -1,3 +1,4 @@
 # int2024_janken
 # hutarinoaishosindan
 # hutarinoaishosindan
+# hutarinoaishosindan
