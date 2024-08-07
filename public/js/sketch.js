@@ -1,9 +1,11 @@
 let gestures_results;
-var sound;
+var count;
+var kirakira;
 
 function preload() {
   // janken.m4a を読み込む
-  sound = loadSound('janken.mp3');
+  count = loadSound('count.mp3');
+  kirakira = loadSound('kirakira.mp3');
 }
 
 function setup() {
@@ -33,7 +35,7 @@ function draw() {
       for (const landmarks of gestures_results.landmarks) {
         for (let landmark of landmarks) {
           noStroke();
-          fill(100, 150, 210);
+          fill(255,192,203);
           circle(landmark.x * width, landmark.y * height, 10);
         }
       }
@@ -42,8 +44,8 @@ function draw() {
     // ジェスチャーの結果を表示する
     for (let i = 0; i < gestures_results.gestures.length; i++) {
       noStroke();
-      fill(255, 0, 0);
-      textSize(20);
+      fill(255);
+      textSize(15);
       let name = gestures_results.gestures[i][0].categoryName;
       let score = gestures_results.gestures[i][0].score;
       let right_or_left = gestures_results.handednesses[i][0].hand;
@@ -52,7 +54,7 @@ function draw() {
         y: gestures_results.landmarks[i][0].y * height,
       };
       textSize(48);
-      fill(0);
+      fill(255);
       textAlign(CENTER, CENTER);
       text(name, pos.x, pos.y);
     }
@@ -60,19 +62,18 @@ function draw() {
     // mode == 1 -> 2 
     if (gestures_results.gestures.length > 0) {
       let name = gestures_results.gestures[0][0].categoryName;
-      if (name == 'Thumb_Up' && mode == 1) {
+      if (name == 'ILoveYou' && mode == 1) {
         mode = 2;
         socket.emit('ready', '');
       }
-      else if (name != 'Thumb_Up' && mode == 2) {
+      else if (name != 'ILoveYou' && mode == 2) {
         mode = 1;
         socket.emit('unready', '');
       }
 
-      text("mode: " + mode, 50, 50);
+      text("mode: " + mode, 100, 50);
 
-      // sound.play()の再生が終わったら 
-      if (mode == 3 && !sound.isPlaying()) {
+      if (mode == 3 && !count.isPlaying()) {
         socket.emit('janken_type', {
           janken_type: name,
           id: socket.id
@@ -83,7 +84,8 @@ function draw() {
 
   }
 
-  textSize(48);
+  textSize(50);
+  fill(255);
   text(result_message, width / 2, height / 2);
 
 }

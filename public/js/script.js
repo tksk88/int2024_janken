@@ -65,7 +65,7 @@ function enableCam(event) {
     }
     else {
         webcamRunning = true;
-        enableWebcamButton.innerText = "DISABLE PREDICTIONS";
+        enableWebcamButton.innerText = "🤟してスタートするよ";
     }
     // getUsermedia parameters.
     const constraints = {
